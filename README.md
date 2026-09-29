@@ -40,4 +40,4 @@ Install **Extension Drawers** from **Settings -> Community plugins -> Browse**, 
 
 To install manually:
 
-Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/extension-drawers/`.
+Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/plugin-drawers/`.
