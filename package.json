@@ -1,0 +1,31 @@
+{
+	"name": "plugin-drawers",
+	"version": "1.0.0",
+	"description": "Organise community and core plugins into folders in a single Plugins tab.",
+	"main": "main.js",
+	"type": "module",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc --noEmit && node esbuild.config.mjs production",
+		"lint": "eslint .",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
+	},
+	"author": "Bohdan",
+	"license": "MIT",
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@types/node": "^26.6.3",
+		"esbuild": "^0.28.2",
+		"eslint": "^10.11.0",
+		"eslint-plugin-obsidianmd": "^0.4.2",
+		"globals": "^17.12.0",
+		"obsidian": "^1.13.1",
+		"prettier": "^3.9.9",
+		"typescript": "~6.0",
+		"typescript-eslint": "^8.71.0"
+	},
+	"dependencies": {
+		"monkey-around": "^3.0.0"
+	}
+}

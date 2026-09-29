@@ -1,0 +1,9 @@
+{
+	"id": "plugin-drawers",
+	"name": "Plugin Drawers",
+	"version": "1.0.0",
+	"minAppVersion": "1.13.0",
+	"description": "Organise community and core plugins into folders in a single Plugins tab.",
+	"author": "brakkk",
+	"isDesktopOnly": true
+}
