@@ -1,4 +1,4 @@
-# Plugin Drawers
+# Extension Drawers
 
 Organise Obsidian's community and core plugins into collapsible folders, in one Plugins tab.
 
@@ -36,8 +36,8 @@ Desktop only. Requires Obsidian 1.13 or later.
 
 ## Installation
 
-Install **Plugin Drawers** from **Settings -> Community plugins -> Browse**, then enable it.
+Install **Extension Drawers** from **Settings -> Community plugins -> Browse**, then enable it.
 
 To install manually:
 
-Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/plugin-drawers/`.
+Copy `main.js`, `manifest.json` and `styles.css` from the latest release into `<vault>/.obsidian/plugins/extension-drawers/`.

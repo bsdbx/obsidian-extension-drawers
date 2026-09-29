@@ -32,6 +32,9 @@ declare module "obsidian" {
 			openTab(tab: SettingTab): void;
 			openTabById(id: string): SettingTab | null;
 			updatePageTitle?(): void;
+			tabContainer?: HTMLElement;
+			corePluginTabContainer?: HTMLElement;
+			communityPluginTabContainer?: HTMLElement;
 		};
 		plugins: {
 			manifests: Record<string, PluginManifest>;

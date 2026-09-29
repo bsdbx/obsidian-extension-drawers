@@ -17,11 +17,6 @@ const DEFAULT_SETTINGS: Settings = {
 	advancedCollapsed: true,
 };
 
-const HIDE_TABS_CLASS: Record<ListKind, string> = {
-	community: "pd-hide-community-tabs",
-	core: "pd-hide-core-tabs",
-};
-
 interface PluginData {
 	version: 1;
 	layouts?: Partial<Record<ListKind, PluginLayout | null>>;
@@ -46,7 +41,7 @@ export interface CommitOptions {
 	refresh?: boolean;
 }
 
-export default class PluginDrawersPlugin extends Plugin {
+export default class ExtensionDrawersPlugin extends Plugin {
 	layouts: Record<ListKind, PluginLayout | null> = { community: null, core: null };
 	settings: Settings = { ...DEFAULT_SETTINGS };
 	tab = new PluginsTabController(this);
@@ -63,7 +58,6 @@ export default class PluginDrawersPlugin extends Plugin {
 
 	onunload(): void {
 		this.tab.stop();
-		for (const cls of Object.values(HIDE_TABS_CLASS)) document.body.removeClass(cls);
 	}
 
 	async onExternalSettingsChange(): Promise<void> {
@@ -88,9 +82,7 @@ export default class PluginDrawersPlugin extends Plugin {
 	}
 
 	private applySettings(): void {
-		const active = this.tab.isActive();
-		document.body.toggleClass(HIDE_TABS_CLASS.community, active && this.settings.hideCommunityTabs);
-		document.body.toggleClass(HIDE_TABS_CLASS.core, active && this.tab.hasCoreList() && this.settings.hideCoreTabs);
+		this.tab.placeSidebarSections();
 	}
 
 	private save(): void {

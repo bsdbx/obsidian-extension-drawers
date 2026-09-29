@@ -17,7 +17,7 @@ import {
 import { DEFAULT_CORE_FOLDERS } from "./defaults";
 import { DrawerList } from "./drawerList";
 import { reconcile, seedLayout } from "./layout";
-import type PluginDrawersPlugin from "./main";
+import type ExtensionDrawersPlugin from "./main";
 import { communitySource, coreSource, ListKind, PluginSource } from "./sources";
 
 const COMMUNITY_TAB_ID = "community-plugins";
@@ -42,9 +42,10 @@ export class PluginsTabController {
 	private browseDef: SettingDefinition | null = null;
 	private unwatchBrowser: (() => void) | null = null;
 	private targetFolderId: string | null = null;
+	private sidebar: Record<"options" | ListKind, HTMLElement> | null = null;
 	private readonly drawerDef: SettingDefinition;
 
-	constructor(readonly plugin: PluginDrawersPlugin) {
+	constructor(readonly plugin: ExtensionDrawersPlugin) {
 		this.drawers = new DrawerList(plugin, this);
 		this.drawerDef = {
 			name: "",
@@ -62,10 +63,6 @@ export class PluginsTabController {
 
 	isActive(): boolean {
 		return !!this.community;
-	}
-
-	hasCoreList(): boolean {
-		return !!this.core;
 	}
 
 	get list(): ListKind {
@@ -95,6 +92,7 @@ export class PluginsTabController {
 				},
 				renderTab: (original) => () => {
 					original.call(community);
+					community.containerEl.querySelector(":scope > .pd-search-only")?.detach();
 					this.decorateAdvanced();
 				},
 			}),
@@ -156,8 +154,19 @@ export class PluginsTabController {
 			}),
 		);
 
-		core.navEl.addClass("pd-hidden-tab");
-		this.cleanups.push(() => core.navEl.removeClass("pd-hidden-tab"));
+		core.navEl.hide();
+		this.cleanups.push(() => core.navEl.show());
+
+		const options = setting.tabContainer?.parentElement;
+		const coreSection = setting.corePluginTabContainer?.parentElement;
+		const communitySection = setting.communityPluginTabContainer?.parentElement;
+		if (options && coreSection && communitySection) {
+			this.sidebar = { options, core: coreSection, community: communitySection };
+			this.cleanups.push(() => {
+				this.placeSidebarSections({ core: false, community: false });
+				this.sidebar = null;
+			});
+		}
 
 		const internal = this.plugin.app.internalPlugins;
 		const ref = internal.on(
@@ -283,6 +292,7 @@ export class PluginsTabController {
 					searchable: false,
 					render: (setting, group) => {
 						group.addClass("pd-footer");
+						setting.settingEl.removeClass("setting-item");
 						setting.settingEl.empty();
 						new ButtonComponent(setting.settingEl)
 							.setButtonText("New Folder")
@@ -335,6 +345,26 @@ export class PluginsTabController {
 					this.showList(kind);
 				}
 			});
+		}
+	}
+
+	placeSidebarSections(
+		hidden: Record<ListKind, boolean> = {
+			core: this.plugin.settings.hideCoreTabs,
+			community: this.plugin.settings.hideCommunityTabs,
+		},
+	): void {
+		const sidebar = this.sidebar;
+		if (!sidebar) return;
+		let anchor = sidebar.options;
+		for (const kind of ["core", "community"] as const) {
+			const section = sidebar[kind];
+			if (hidden[kind]) {
+				section.detach();
+				continue;
+			}
+			if (anchor.nextElementSibling !== section) anchor.after(section);
+			anchor = section;
 		}
 	}
 

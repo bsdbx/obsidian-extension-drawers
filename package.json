@@ -1,5 +1,5 @@
 {
-	"name": "plugin-drawers",
+	"name": "extension-drawers",
 	"version": "1.0.0",
 	"description": "Organise community and core plugins into folders in a single Plugins tab.",
 	"main": "main.js",

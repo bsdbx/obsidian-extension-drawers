@@ -11,7 +11,7 @@ import {
 	sectionOf,
 	setSectionCollapsed,
 } from "./layout";
-import type { CommitOptions, default as PluginDrawersPlugin } from "./main";
+import type { CommitOptions, default as ExtensionDrawersPlugin } from "./main";
 import type { PluginsTabController } from "./pluginsTab";
 import type { PluginEntry, PluginSource } from "./sources";
 
@@ -32,12 +32,13 @@ export class DrawerList {
 	private focusFolderId: string | null = null;
 
 	constructor(
-		private plugin: PluginDrawersPlugin,
+		private plugin: ExtensionDrawersPlugin,
 		private controller: PluginsTabController,
 	) {}
 
 	mount(hostEl: HTMLElement): void {
 		hostEl.empty();
+		hostEl.removeClass("setting-item");
 		hostEl.addClass("pd-host");
 		this.filter = "";
 		this.drag = null;
